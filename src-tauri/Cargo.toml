@@ -1,0 +1,26 @@
+[package]
+name = "ganttdesk"
+version = "1.0.0"
+description = "GanttDesk offline Gantt planner"
+authors = ["GanttDesk"]
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
+
+# Single desktop binary, so size wins over build time here: one codegen unit,
+# whole-program LTO, size-first optimisation and no symbols.
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
+incremental = false
